@@ -23,8 +23,21 @@ const app = express();
 connectDB();
 
 // Middleware
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://nike-ecommerce-delta.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:5001',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow requests during initial setup
+    }
+  },
   credentials: true,
 }));
 app.use(morgan('dev'));
