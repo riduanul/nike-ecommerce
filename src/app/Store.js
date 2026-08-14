@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cartSlice from "../features/cartSlice.js";
-
+import CartSlice from "../features/CartSlice.js";
+import authReducer from "../features/authSlice.js";
+import productReducer from "../features/productSlice.js";
+import orderReducer from "../features/orderSlice.js";
 
 const Store = configureStore({
-    reducer:{
-        cart: cartSlice,
-    },
-  //   devTools: process.env.NODE_ENV !== 'production',
-  // middleware: (getDefaultMiddlewares) => getDefaultMiddlewares().concat(), 
-})
+  reducer: {
+    cart: CartSlice,
+    auth: authReducer,
+    products: productReducer,
+    orders: orderReducer,
+  },
+});
 
-export default Store
+export default Store;

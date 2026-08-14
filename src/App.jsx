@@ -1,25 +1,49 @@
-import React from 'react'
-import { Hero, Sales, FlexContent, Stories, Footer, Navbar, Cart } from './components'
-import {heroapi, popularsales, toprateslaes, highlight, sneaker, story, footerAPI} from './data/data'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import AuthPage from './pages/AuthPage';
+import CheckoutPage from './pages/CheckoutPage';
+import ProfilePage from './pages/ProfilePage';
+import AdminDashboard from './pages/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
-    <>
-      <main className='flex flex-col gap-16 relative
-      '>
-        <Navbar  />
-        <Cart  />
-        <Hero heroapi={heroapi}/>
-        <Sales endpoint={popularsales} ifExists/>
-        <FlexContent endpoint={highlight} ifExists/>
-        <Sales endpoint={toprateslaes}/>
-        <FlexContent endpoint={sneaker}/>
-        <Stories story={story}/>
-        <Footer footerApi={footerAPI} />
-        
-      </main>
-    </>
-  )
-}
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/shop" element={<ShopPage />} />
+      <Route path="/product/:id" element={<ProductDetailPage />} />
+      <Route path="/login" element={<AuthPage />} />
+      <Route path="/register" element={<AuthPage />} />
+      
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <CheckoutPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute adminOnly={true}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
+};
 
-export default App
+export default App;
